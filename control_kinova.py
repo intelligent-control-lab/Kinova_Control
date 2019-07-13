@@ -41,7 +41,7 @@ class Kinova_Controller:
         return abs(x1 - x2) <= 0.02
 
     def check_achieved(self, pose_ini):
-        pose_curr = GetMeasuredCartesianPose_client()
+        pose_curr = get_measured_catesian_pose()
         print pose_curr
         if (pose_ini is None) or (pose_curr is None):
             return True
@@ -52,25 +52,25 @@ class Kinova_Controller:
 
     def initialize(self):
         # Initialize to this position
-        PlayJoint_client(self.ini_pos)
+        play_joint_client(self.ini_pos)
         time.sleep(3)
-        OpenFingers()
+        open_fingers()
         if not self.check_achieved(self.ini_cart):
             # raw_input("not achieved!")
-            PlayJoint_client(self.ini_pos)
+            play_joint_client(self.ini_pos)
             time.sleep(3)
         act = int(raw_input("Please specify the next action:"))
         self.curr_action = act
 
     def dropoff_object(self):
         rospy.loginfo("Dropping off")
-        PlayCartesian_client(0, 0, 0.1, 0, 0, 0)
-        PlayJoint_client(self.drop_pos)
+        play_cartesian_client(0, 0, 0.1, 0, 0, 0)
+        play_joint_client(self.drop_pos)
         time.sleep(3)
-        OpenFingers()
+        open_fingers()
         time.sleep(2)
         self.dropoff_flag = False
-        PlayCartesian_client(-0.5, 0, 0, 0, 0, 0)
+        play_cartesian_client(-0.5, 0, 0, 0, 0, 0)
         # time.sleep(1)
         self.initialize()
 
@@ -79,13 +79,13 @@ class Kinova_Controller:
         max_depth = self.spot_max()
         if max_depth > 165:
             if max_depth - 165 > 20:
-                PlayCartesian_client(0, 0, float(165 - max_depth) / 1000, 0, 0, 0)
+                play_cartesian_client(0, 0, float(165 - max_depth) / 1000, 0, 0, 0)
             else:
-                PlayCartesian_client(0, 0, -0.01, 0, 0, 0)
+                play_cartesian_client(0, 0, -0.01, 0, 0, 0)
         else:
             if self.curr_action == 5:
-                PlayCartesian_client(0, 0, -0.02, 0, 0, 0)
-            CloseFingers()
+                play_cartesian_client(0, 0, -0.02, 0, 0, 0)
+            close_fingers()
             self.pickup_flag = False
             self.dropoff_flag = True
             time.sleep(2)
@@ -102,17 +102,17 @@ class Kinova_Controller:
         found = False
         area = 0
         if self.curr_action == 3 and not self.reset_pos_3:
-            PlayCartesian_client(0, -0.30, 0, 0, 0, 0)
-            PlayCartesian_client(-0.1, 0, 0, 0, 0, 0)
+            play_cartesian_client(0, -0.30, 0, 0, 0, 0)
+            play_cartesian_client(-0.1, 0, 0, 0, 0, 0)
             self.reset_pos_3 = True
             return
         elif self.curr_action == 4 and not self.reset_pos_4:
-            new_pos = GetMeasuredCartesianPose_client()
+            new_pos = get_measured_catesian_pose()
             new_pos.x = new_pos.x + 0.56
             new_pos.y = new_pos.y - 0.15
-            MoveToCartesianPosition(new_pos)
+            move_to_cartesian_position(new_pos)
             if not self.check_achieved(new_pos):
-                MoveToCartesianPosition(new_pos)
+                move_to_cartesian_position(new_pos)
             self.reset_pos_4 = True
             return
         else:
@@ -127,13 +127,13 @@ class Kinova_Controller:
             if not found:
                 # raw_input("Press Enter to proceed")
                 if self.curr_action in [3, 4]:
-                    PlayCartesian_client(0, -0.05, 0, 0, 0, 0)
+                    play_cartesian_client(0, -0.05, 0, 0, 0, 0)
                 else:
-                    PlayCartesian_client(0.05, 0, 0, 0, 0, 0)
+                    play_cartesian_client(0.05, 0, 0, 0, 0, 0)
             else:
                 raw_input("Press Enter to pick up object")
                 if self.curr_action == 5:
-                    PlayCartesian_client(0, 0.03, 0, 0, 0, 0)
+                    play_cartesian_client(0, 0.03, 0, 0, 0, 0)
                 self.before_pick()
                 return
 
@@ -219,9 +219,9 @@ def make_decision(action):
 
 launch_windows()
 controller.curr_action = 2
-controller.ini_cart = GetMeasuredCartesianPose_client()
+controller.ini_cart = get_measured_catesian_pose()
 controller.initialize()
-OpenFingers()
+open_fingers()
 raw_input("Finished a bunch of initialization")
 # pos_sub = rospy.Subscriber()
 listener()
