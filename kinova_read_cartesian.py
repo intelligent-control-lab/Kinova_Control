@@ -14,7 +14,9 @@ def on_press(key):
     """
     try:
         if key.char == 's':
-            coordinates.append(get_measured_catesian_pose())
+            pose = get_measured_catesian_pose()
+            coordinates.append(pose)
+            print pose
             print 'Recorded current cartesian coordinates'
         elif key.char == 'q':
             f = open('coordinates.p', 'wb')

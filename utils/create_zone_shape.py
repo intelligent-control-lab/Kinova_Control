@@ -1,4 +1,4 @@
-import rospy, numpy as np, pickle
+import rospy, pickle
 from kortex_driver.srv import *
 from kortex_driver.msg import *
 
