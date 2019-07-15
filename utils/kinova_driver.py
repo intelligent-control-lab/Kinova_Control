@@ -3,6 +3,7 @@ from kortex_driver.srv import *
 from kortex_driver.msg import *
 import time
 
+
 # This file contains functions for Kinova robot movement
 
 #################################

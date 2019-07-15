@@ -1,7 +1,6 @@
 import rospy
 from kortex_driver.srv import *
 from kortex_driver.msg import *
-import time
 
 
 def create_protection_zone(name, application_data='', shape=ZoneShape(), limitations=[],
@@ -30,6 +29,7 @@ def create_protection_zone(name, application_data='', shape=ZoneShape(), limitat
     except rospy.ServiceException as e:
         print "Service call failed: %s" % e
 
+
 def delete_protection_zone(handle):
     """
     Delete the protection zone specified by the given protection zone handle
@@ -42,6 +42,7 @@ def delete_protection_zone(handle):
         function_DeleteProtectionZone(handle)
     except rospy.ServiceException as e:
         print "Service call failed: %s" % e
+
 
 def get_protection_zone_state(handle):
     """
@@ -62,6 +63,7 @@ def get_protection_zone_state(handle):
     except rospy.ServiceException as e:
         print "Service call failed: %s" % e
 
+
 def update_protection_zone(new_zone):
     """
     Update the protection zone
@@ -73,4 +75,4 @@ def update_protection_zone(new_zone):
         function_UpdateProtectionZone = rospy.ServiceProxy('UpdateProtectionZone', UpdateProtectionZone)
         function_UpdateProtectionZone(new_zone)
     except rospy.ServiceException as e:
-        print "Service call failed : %s" %e
+        print "Service call failed : %s" % e
