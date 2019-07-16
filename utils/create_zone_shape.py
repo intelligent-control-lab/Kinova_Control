@@ -69,12 +69,15 @@ class ZoneShapeWrapper:
         self.instance.envelope_thickness = float(raw_input("Enter envelope thickness of the ZoneShape: "))
 
     def create_from_scratch(self):
+        """
+        Create a new ZoneShape from scratch
+        """
         self.obtain_info()
         self.save_zone_shape()
 
     def save_zone_shape(self):
         """
-        Saves the created ZoneShape instance
+        Save the created ZoneShape instance
         """
         f = open('zone_shape.p', 'wb')
         pickle.dump(self.instance, f)
