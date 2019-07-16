@@ -49,24 +49,28 @@ class ZoneShapeWrapper:
             rot_raw[i] = float(rot_raw[i])
         rot_mat = RotationMatrix()
         row1 = RotationMatrixRow()
-        row1.col1 = rot_raw[0]
-        row1.col2 = rot_raw[1]
-        row1.col3 = rot_raw[2]
+        row1.column1 = rot_raw[0]
+        row1.column2 = rot_raw[1]
+        row1.column3 = rot_raw[2]
         rot_mat.row1 = row1
         row2 = RotationMatrixRow()
-        row2.col1 = rot_raw[3]
-        row2.col2 = rot_raw[4]
-        row2.col3 = rot_raw[5]
+        row2.column1 = rot_raw[3]
+        row2.column2 = rot_raw[4]
+        row2.column3 = rot_raw[5]
         rot_mat.row2 = row2
         row3 = RotationMatrixRow()
-        row3.col1 = rot_raw[6]
-        row3.col2 = rot_raw[7]
-        row3.col3 = rot_raw[8]
+        row3.column1 = rot_raw[6]
+        row3.column2 = rot_raw[7]
+        row3.column3 = rot_raw[8]
         rot_mat.row3 = row3
         self.instance.orientation = rot_mat
 
         # Reading envelope thickness
         self.instance.envelope_thickness = float(raw_input("Enter envelope thickness of the ZoneShape: "))
+
+    def create_from_scratch(self):
+        self.obtain_info()
+        self.save_zone_shape()
 
     def save_zone_shape(self):
         """

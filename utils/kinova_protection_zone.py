@@ -76,3 +76,16 @@ def update_protection_zone(new_zone):
         function_UpdateProtectionZone(new_zone)
     except rospy.ServiceException as e:
         print "Service call failed : %s" % e
+
+
+def read_all_zones():
+    """
+    Read all the protection zones
+    """
+    rospy.wait_for_service('ReadAllProtectionZones')
+
+    try:
+        function_ReadAllProtectionZones = rospy.ServiceProxy('ReadAllProtectionZones', ReadAllProtectionZones)
+        return function_ReadAllProtectionZones().output.protection_zones
+    except rospy.ServiceException as e:
+        print "Service call failed : %s" % e

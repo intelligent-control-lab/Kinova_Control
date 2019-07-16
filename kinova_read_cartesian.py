@@ -12,6 +12,7 @@ def on_press(key):
     The handler for a keypress event
     :param key: the key being pressed
     """
+    global coordinates
     try:
         if key.char == 's':
             pose = get_measured_catesian_pose()
@@ -19,6 +20,7 @@ def on_press(key):
             print pose
             print 'Recorded current cartesian coordinates'
         elif key.char == 'q':
+            print coordinates
             f = open('coordinates.p', 'wb')
             pickle.dump(coordinates, f)
             print 'All coordinates saved to file coordinates.p'
@@ -39,14 +41,18 @@ def on_release(key):
 
 coordinates = []
 
+launch_windows()
+raw_input("This program allows you to look at the cartesian coordinates "
+          "of the end-effector. Press Enter to start")
+
+rospy.init_node('JustToKeepRunning')
+
 listener = keyboard.Listener(
     on_press=on_press,
     on_release=on_release)
 listener.start()
 
-launch_windows()
-raw_input("This program allows you to look at the cartesian coordinates "
-          "of the end-effector. Press Enter to start")
-
-# I AM V SKEPTICAL ABOUT THIS Y'ALL
+# while True:
+#     a = 0
 rospy.spin()
+

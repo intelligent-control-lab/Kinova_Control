@@ -96,13 +96,16 @@ def play_cartesian_client(disp_x, disp_y, disp_z, ang_x, ang_y, ang_z):
         request.input.target_pose.theta_z = current_theta_z + ang_z
 
         poseSpeed = CartesianSpeed()
-        poseSpeed.translation = 0.1
+        poseSpeed.translation = 0.5
         poseSpeed.orientation = 15
 
         request.input.constraint.oneof_type.speed.append(poseSpeed)
 
         function_PlayCartesianTrajectory(request)
-        time.sleep((abs(disp_x) + abs(disp_y) + abs(disp_z)) * 15)
+        if [disp_x, disp_y, disp_z] != [0, 0, 0]:
+            time.sleep((abs(disp_x) + abs(disp_y) + abs(disp_z)) * 12)
+        if [ang_x, ang_y, ang_z] != [0, 0, 0]:
+            time.sleep((abs(ang_x) + abs(ang_y) + abs(ang_z)) / poseSpeed.orientation)
 
     except rospy.ServiceException as e:
         print "Service call failed: %s" % e
@@ -129,7 +132,6 @@ def move_to_cartesian_position(pose):
     :param pose: the desired Cartesian position, not in term of displacements
     """
     rospy.wait_for_service('PlayCartesianTrajectory')
-    rospy.wait_for_service('RefreshFeedback')
 
     try:
         function_PlayCartesianTrajectory = rospy.ServiceProxy('PlayCartesianTrajectory', PlayCartesianTrajectory)
@@ -138,13 +140,13 @@ def move_to_cartesian_position(pose):
         # Creating our next target (a Cartesian pose)
         request.input.target_pose = pose
         poseSpeed = CartesianSpeed()
-        poseSpeed.translation = 0.1
+        poseSpeed.translation = 0.5
         poseSpeed.orientation = 15
 
         request.input.constraint.oneof_type.speed.append(poseSpeed)
 
         function_PlayCartesianTrajectory(request)
-        time.sleep(3)
+        time.sleep(7)
 
     except rospy.ServiceException as e:
         print "Service call failed: %s" % e
