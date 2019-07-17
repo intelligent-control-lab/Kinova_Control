@@ -7,17 +7,18 @@ def create_protection_zone(name, application_data='', shape=ZoneShape(), limitat
                            envelope_limitations=[]):
     """
     Create a protection zone from these parameters
-    :param name: the name of the protection zone
-    :param application_data: application data, reserved for Web API use
+    :param name: string, the name of the protection zone
+    :param application_data: string, application data, reserved for Web API use
     :param shape: the ZoneShape object that specifies the boundaries
-    :param limitations: list of Cartesian limitations
-    :param envelope_limitations: list of Cartesian limitations
+    :param limitations: list of CartesianLimitations
+    :param envelope_limitations: list of CartesianLimitations
     """
     proc_zone = ProtectionZone()
     proc_zone.is_enabled = True
     proc_zone.name = name
     proc_zone.application_data = application_data
     proc_zone.shape = shape
+    # CartesianLimitations are specified using translation and orientation
     proc_zone.limitations = limitations
     proc_zone.envelope_limitations = envelope_limitations
 

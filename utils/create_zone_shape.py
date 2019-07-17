@@ -43,8 +43,14 @@ class ZoneShapeWrapper:
         self.instance.origin = pt
 
         # Reading the rotation matrix for orientation
-        str_rot = raw_input("Specify the rotation matrix, separate each entry with a ,.")
+        # The rotation matrix is a 3 x 3 matrix
+        # If there is no rotation, use the identity matrix
+        str_rot = raw_input("Specify the 3x3 rotation matrix, separate each entry with a ,.")
         rot_raw = str_rot.strip().split(',')
+        while len(rot_raw) != 9:
+            print "The dimensions for the rotation matrix is incorrect"
+            str_rot = raw_input("Specify the 3x3 rotation matrix, separate each entry with a ,.")
+            rot_raw = str_rot.strip().split(',')
         for i in range(len(rot_raw)):
             rot_raw[i] = float(rot_raw[i])
         rot_mat = RotationMatrix()
@@ -65,8 +71,8 @@ class ZoneShapeWrapper:
         rot_mat.row3 = row3
         self.instance.orientation = rot_mat
 
-        # Reading envelope thickness
-        self.instance.envelope_thickness = float(raw_input("Enter envelope thickness of the ZoneShape: "))
+        # Reading envelope thickness, it is a float
+        self.instance.envelope_thickness = float(raw_input("Enter envelope thickness of the ZoneShape (float): "))
 
     def create_from_scratch(self):
         """
