@@ -53,10 +53,14 @@ inside the envelope
 
 A *ZoneShape* defines the position and dimension of a *ProtectionZone*. A *ZoneShape* instance is made of:
 * `shape_type`: an enum; 0 - unspecified, 1 - cylinder, 2 - sphere, 3 - rectangular prism
-* `origin`: the origin *Point* defined by its x, y, and z
+* `origin`: the origin *Point* defined by its x, y, and z; this is the **center** of the zone
 * `orientation`: a rotation matrix that specifies the orientation
 * `dimensions`: for cylinder, radius and height; for sphere, radius; for rectangular prism, x, y and z dimensions
 * `envelope_thickness`: how thick the envelope is; an envelope is the volume surrounding the protection zone
+
+![img](imgs/Fig1.png)
+
+**Fig 1. How coordinates work when defining the protection zone**
 
 #### kinova_misc.py
 This file contains miscellaneous functions that help the driver run smoothly, such as launching certain ros terminal 
